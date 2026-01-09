@@ -138,7 +138,9 @@ def get_MRI_GAN(pre_trained=True):
     generator = GeneratorUNet()
     if pre_trained:
         checkpoint_path = ConfigParser.getInstance().get_mri_gan_weight_path()
-        checkpoint = torch.load(checkpoint_path)
+        # Load weights in a device-agnostic way (CPU fallback when CUDA is unavailable)
+        map_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        checkpoint = torch.load(checkpoint_path, map_location=map_device)
         generator.load_state_dict(checkpoint['generator_state_dict'])
 
     return generator

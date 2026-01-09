@@ -1,0 +1,60 @@
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#ffffff', 'primaryTextColor':'#000000', 'primaryBorderColor':'#000000', 'lineColor':'#000000', 'secondaryColor':'#ffffff', 'tertiaryColor':'#ffffff', 'background':'#ffffff'}}}%%
+flowchart LR
+    A[Input Video] --> B[Preprocessing Pipeline]
+    
+    B --> B1[MTCNN Face Detection]
+    B1 --> B2[Face Cropping & Alignment]
+    B2 --> B3[Frame Sampling]
+    B3 --> B4[MRI Generation]
+    
+    B3 --> C1[Plain Frames Detection]
+    B4 --> C2[MRI-GAN Detection]
+    B3 --> C3[Temporal Analysis]
+    
+    C1 --> C1A[EfficientNet-B0 Encoder]
+    C1A --> C1B[Frame Classification]
+    C1B --> D1[Raw Probabilities]
+    
+    C2 --> C2A[MRI-GAN Generator]
+    C2A --> C2B[Perceptual Dissimilarity Mapping]
+    C2B --> C2C[Attention Localization]
+    C2C --> D2[Raw Probabilities]
+    
+    C3 --> C3A[Frame Embedding Extraction]
+    C3A --> C3B[1D CNN Temporal Head]
+    C3B --> C3C[Sequence Aggregation]
+    C3C --> D3[Raw Probabilities]
+    
+    D1 --> E[Probability Calibration]
+    D2 --> E
+    D3 --> E
+    
+    E --> E1[Temperature Scaling]
+    E1 --> E2[Calibrated Probabilities]
+    
+    E2 --> F[Ensemble Fusion]
+    F --> F1[Adaptive Confidence Weighting]
+    F1 --> F2[Temporal Smoothing]
+    F2 --> F3[Weighted Probability Fusion]
+    
+    F3 --> G[Final Prediction]
+    G --> G1[Real/Fake Classification]
+    G1 --> G2[Confidence Score]
+    
+    G --> H[Web Interface]
+    H --> H1[FastAPI Backend]
+    H1 --> H2[Real-time Progress Tracking]
+    H2 --> H3[Results Visualization]
+    
+    style A fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style B fill:#fff4e1,stroke:#333,stroke-width:2px
+    style C1 fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style C2 fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style C3 fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style E fill:#f3e5f5,stroke:#333,stroke-width:2px
+    style F fill:#ffebee,stroke:#333,stroke-width:2px
+    style G fill:#e0f2f1,stroke:#333,stroke-width:2px
+    style H fill:#fff9c4,stroke:#333,stroke-width:2px
+```
+

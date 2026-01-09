@@ -1,0 +1,3 @@
+face_image,mri_image,class
+data/custom_dataset/crop_faces/train\id13_id10_0004\0_0.png,data/custom_dataset/mri\id13_id10_0004\0_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\60_0.png,data/custom_dataset/mri\id13_id10_0004\60_0.png,fake

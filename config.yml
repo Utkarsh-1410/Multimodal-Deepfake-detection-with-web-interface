@@ -14,9 +14,14 @@ data_path:
       plan_pkl_filename: 'data_augmentation_plan.pkl'
       metadata: 'aug_metadata'
   celeb_df_v2:
-    real: '/home/therock/data2/data_workset/deepfake_data/Celeb-DF-v2/Celeb-real'
-    fake: '/home/therock/data2/data_workset/deepfake_data/Celeb-DF-v2/Celeb-synthesis'
+    real: 'data/Celeb-real'
+    fake: 'data/Celeb-synthesis'
     real_fake_mapping: 'celeb_df_v2_real_fake_mapping.json'
+  youtube_real:
+    data_path: 'data/YouTube-real'
+  custom_dataset:
+    real: 'data/real'
+    fake: 'data/fake'
   fdf:
     data_path: '/home/therock/data2/data_workset/deepfake_data/fdf/cc-by-nc-sa-2/128'
   ffhq:
@@ -46,6 +51,13 @@ features:
       train: '/home/therock/data2/data_workset/deepfake_data/Celeb-DF-v2/crop_faces/train'
     mri_metadata_csv: 'celeb_df_v2_mri_metadata.csv'
     mri_path: '/home/therock/data2/data_workset/deepfake_data/Celeb-DF-v2/mri'
+  custom_dataset:
+    landmarks_path:
+      train: 'data/custom_dataset/landmarks'
+    crop_faces:
+      train: 'data/custom_dataset/crop_faces/train'
+    mri_metadata_csv: 'custom_dataset_mri_metadata.csv'
+    mri_path: 'data/custom_dataset/mri'
   fdf:
     json_filename: '/home/therock/data2/data_workset/deepfake_data/fdf/cc-by-nc-sa-2/fdf.json'
     crops_path: '/home/therock/data2/data_workset/deepfake_data/fdf/cc-by-nc-sa-2/128_crops'

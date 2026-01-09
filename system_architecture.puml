@@ -1,0 +1,118 @@
+@startuml System Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+
+title Multi-Method DeepFake Detection System Architecture
+
+package "Input Layer" {
+  [Video Input] as VideoInput
+}
+
+package "Preprocessing Pipeline" {
+  [Face Detection\n(MTCNN)] as FaceDetect
+  [Landmark Extraction] as Landmarks
+  [Face Cropping\n& Alignment] as FaceCrop
+  [Frame Sampling] as FrameSample
+  [MRI Generation\n(MRI-GAN)] as MRIGen
+}
+
+package "Detection Methods" {
+  package "Plain Frames" {
+    [EfficientNet-B0\nEncoder] as PlainEncoder
+    [Frame Classifier] as PlainClassifier
+    [Plain Frames\nDetector] as PlainDetector
+  }
+  
+  package "MRI-Based" {
+    [MRI Map\nProcessor] as MRIMap
+    [EfficientNet-B0\nEncoder] as MRIEncoder
+    [MRI Classifier] as MRIClassifier
+    [MRI-Based\nDetector] as MRIDetector
+  }
+  
+  package "Temporal Analysis" {
+    [Frame Embedding\nExtractor] as TempEmbed
+    [1D CNN\nTemporal Head] as TempHead
+    [Temporal\nDetector] as TempDetector
+  }
+  
+  package "Ensemble Fusion" {
+    [Probability\nFusion Engine] as FusionEngine
+    [Adaptive Weighting] as AdaptiveWeight
+    [Temporal Smoothing] as TempSmooth
+    [Ensemble\nFusion Detector] as FusionDetector
+  }
+}
+
+package "Calibration & Evaluation" {
+  [Temperature\nScaling] as TempScale
+  [Probability\nCalibration] as ProbCalib
+  [K-Fold\nCross-Validation] as KFold
+  [Metrics\nCalculator] as Metrics
+}
+
+package "Output Layer" {
+  [Results\nAggregator] as Results
+  [Web Interface\n(FastAPI)] as WebUI
+  [API Endpoints] as API
+}
+
+' Data Flow
+VideoInput --> FaceDetect
+FaceDetect --> Landmarks
+Landmarks --> FaceCrop
+FaceCrop --> FrameSample
+FaceCrop --> MRIGen
+
+FrameSample --> PlainDetector
+FrameSample --> TempEmbed
+
+MRIGen --> MRIDetector
+
+' Plain Frames Flow
+PlainDetector --> PlainEncoder
+PlainEncoder --> PlainClassifier
+PlainClassifier --> FusionEngine
+
+' MRI-Based Flow
+MRIDetector --> MRIMap
+MRIMap --> MRIEncoder
+MRIEncoder --> MRIClassifier
+MRIClassifier --> FusionEngine
+
+' Temporal Flow
+TempEmbed --> TempHead
+TempHead --> TempDetector
+TempDetector --> FusionEngine
+
+' Fusion Flow
+FusionEngine --> AdaptiveWeight
+AdaptiveWeight --> TempSmooth
+TempSmooth --> FusionDetector
+
+' Calibration
+PlainClassifier --> TempScale
+MRIClassifier --> TempScale
+TempDetector --> TempScale
+FusionDetector --> ProbCalib
+
+' Evaluation
+ProbCalib --> KFold
+KFold --> Metrics
+
+' Output
+ProbCalib --> Results
+FusionDetector --> Results
+Results --> WebUI
+Results --> API
+
+' Styling
+PlainDetector -[#blue]- PlainEncoder
+MRIDetector -[#green]- MRIMap
+TempDetector -[#orange]- TempHead
+FusionDetector -[#purple]- FusionEngine
+
+@enduml
+

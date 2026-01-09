@@ -1,0 +1,26 @@
+{
+  "k": 4,
+  "total_videos": 2800,
+  "folds": {
+    "fold_1": {
+      "train": 1866,
+      "val": 234,
+      "test": 700
+    },
+    "fold_2": {
+      "train": 1866,
+      "val": 234,
+      "test": 700
+    },
+    "fold_3": {
+      "train": 1866,
+      "val": 234,
+      "test": 700
+    },
+    "fold_4": {
+      "train": 1866,
+      "val": 234,
+      "test": 700
+    }
+  }
+}

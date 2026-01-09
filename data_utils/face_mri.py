@@ -140,6 +140,69 @@ def generate_celeb_df_v2_real_fake_comb(overwrite=True):
     return rf_comb
 
 
+def generate_custom_dataset_real_fake_comb():
+    """Generate real-fake pairs for custom dataset by matching filenames"""
+    real_path = ConfigParser.getInstance().get_custom_dataset_real_path()
+    fake_path = ConfigParser.getInstance().get_custom_dataset_fake_path()
+    
+    real_files = {os.path.splitext(os.path.basename(f))[0]: f for f in glob(real_path + '/*')}
+    fake_files = {os.path.splitext(os.path.basename(f))[0]: f for f in glob(fake_path + '/*')}
+    
+    # Match by filename (without extension)
+    rf_comb = []
+    for name in real_files.keys():
+        if name in fake_files:
+            rf_comb.append((name, name))
+    
+    # If no matches, create random pairs
+    if len(rf_comb) == 0:
+        real_names = list(real_files.keys())
+        fake_names = list(fake_files.keys())
+        import random
+        random.shuffle(real_names)
+        random.shuffle(fake_names)
+        min_len = min(len(real_names), len(fake_names))
+        rf_comb = [(real_names[i], fake_names[i]) for i in range(min_len)]
+    
+    return rf_comb
+
+
+def generate_MRI_dataset_from_custom_dataset(overwrite=True):
+    metadata_csv_file = ConfigParser.getInstance().get_custom_dataset_mri_metadata_csv_path()
+
+    if not overwrite and os.path.isfile(metadata_csv_file):
+        return pd.read_csv(metadata_csv_file)
+
+    real_fake_comb = generate_custom_dataset_real_fake_comb()
+    comb_len = len(real_fake_comb)
+    print(f'Generated real_fake_comb of len {comb_len} for custom dataset')
+    crops_path = ConfigParser.getInstance().get_custom_dataset_crops_path()
+    mri_basedir = ConfigParser.getInstance().get_custom_dataset_mri_path()
+    os.makedirs(mri_basedir, exist_ok=True)
+
+    results = []
+    df = pd.DataFrame(columns=['real_image', 'fake_image', 'mri_image'])
+
+    with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
+        jobs = []
+        for pid in tqdm(range(comb_len), desc="Scheduling jobs"):
+            item = real_fake_comb[pid]
+            reals = os.path.join(crops_path, item[0])
+            fakes = os.path.join(crops_path, item[1])
+            jobs.append(pool.apply_async(gen_face_mri_per_folder, (reals, fakes, mri_basedir,)))
+
+        for job in tqdm(jobs, desc="Generating MRIs for custom dataset"):
+            results.append(job.get())
+
+    for r in tqdm(results, desc='Consolidating results'):
+        if r is not None:
+            df = df.append(r, ignore_index=True)
+
+    df.to_csv(metadata_csv_file)
+
+    return df
+
+
 def generate_MRI_dataset_from_celeb_df_v2(overwrite=True):
     metadata_csv_file = ConfigParser.getInstance().get_celeb_df_v2_mri_metadata_csv_path()
 
@@ -186,7 +249,12 @@ def generate_MRI_dataset(test_size=0.2, dfdc_fract=0.5):
 
     print(f'\t generating celeb-df-v2 MRI dataset')
     celeb_v2_df = generate_MRI_dataset_from_celeb_df_v2(overwrite=False)
+    
+    print(f'\t generating custom dataset MRI dataset')
+    custom_df = generate_MRI_dataset_from_custom_dataset(overwrite=False)
+    
     df_combined = dfdc_df.append(celeb_v2_df, ignore_index=True)
+    df_combined = df_combined.append(custom_df, ignore_index=True)
 
     # convert ['real_image', 'fake_image', 'mri_image'] to ['face_image', 'mri_image']
     # where if image is real => use blank image as mri
@@ -206,7 +274,9 @@ def generate_MRI_dataset(test_size=0.2, dfdc_fract=0.5):
     dfr_base['class'][0:dfr_base_len] = 'real'
 
     print(f'\t generating other real MRI dataset')
-    other_real_crops_paths = [ConfigParser.getInstance().get_fdf_crops_path(),
+    other_real_crops_paths = [ConfigParser.getInstance().get_custom_dataset_crops_path(),
+                              ConfigParser.getInstance().get_youtube_real_crops_path(),
+                              ConfigParser.getInstance().get_fdf_crops_path(),
                               ConfigParser.getInstance().get_ffhq_crops_path()]
 
     other_real_samples = list()

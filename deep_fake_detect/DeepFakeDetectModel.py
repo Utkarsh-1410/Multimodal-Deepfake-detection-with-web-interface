@@ -57,3 +57,30 @@ class DeepFakeDetectModel(nn.Module):
         x = self.avg_pool(x).flatten(1)
         x = self.classifier(x)
         return x
+
+
+class TemporalHead(nn.Module):
+    """Lightweight temporal head over per-frame embeddings.
+    Input: (B, T, D) frame embeddings
+    Output: (B, 1) logit
+    """
+
+    def __init__(self, embedding_dim: int, hidden_ratio: float = 0.25, kernel_size: int = 3):
+        super().__init__()
+        hidden_dim = max(8, int(embedding_dim * hidden_ratio))
+        self.proj = nn.Linear(embedding_dim, hidden_dim)
+        self.temporal = nn.Conv1d(hidden_dim, hidden_dim, kernel_size=kernel_size, padding=kernel_size // 2)
+        self.act = nn.ReLU()
+        self.pool = nn.AdaptiveAvgPool1d(1)
+        self.classifier = nn.Linear(hidden_dim, 1)
+
+    def forward(self, x):
+        # x: (B, T, D)
+        b, t, d = x.shape
+        x = self.proj(x)              # (B, T, H)
+        x = x.transpose(1, 2)         # (B, H, T)
+        x = self.temporal(x)
+        x = self.act(x)
+        x = self.pool(x).squeeze(-1)  # (B, H)
+        x = self.classifier(x)        # (B, 1)
+        return x

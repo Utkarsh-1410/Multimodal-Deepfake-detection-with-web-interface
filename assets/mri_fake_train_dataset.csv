@@ -1,0 +1,9 @@
+face_image,mri_image,class
+data/custom_dataset/crop_faces/train\id13_id10_0004\10_0.png,data/custom_dataset/mri\id13_id10_0004\10_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\40_0.png,data/custom_dataset/mri\id13_id10_0004\40_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\80_0.png,data/custom_dataset/mri\id13_id10_0004\80_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\20_0.png,data/custom_dataset/mri\id13_id10_0004\20_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\30_0.png,data/custom_dataset/mri\id13_id10_0004\30_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\50_0.png,data/custom_dataset/mri\id13_id10_0004\50_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\90_0.png,data/custom_dataset/mri\id13_id10_0004\90_0.png,fake
+data/custom_dataset/crop_faces/train\id13_id10_0004\70_0.png,data/custom_dataset/mri\id13_id10_0004\70_0.png,fake

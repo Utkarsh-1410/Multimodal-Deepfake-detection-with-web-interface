@@ -49,7 +49,19 @@ def locate_face_in_videofile(input_filepath=None, outfile_filepath=None):
     create_video_from_images(frames, outfile_filepath, fps=org_fps, res=org_res)
 
 
-def extract_landmarks_from_video(input_videofile, out_dir, batch_size=32, detector=None, overwrite=False):
+def extract_landmarks_from_video(input_videofile, out_dir, batch_size=32, detector=None, overwrite=False, max_frames=100, sampling='uniform'):
+    """
+    Extract landmarks from video with intelligent frame sampling.
+    
+    Args:
+        input_videofile: Path to input video
+        out_dir: Output directory for landmark JSON
+        batch_size: Batch size for face detection
+        detector: Face detector model (MTCNN)
+        overwrite: Whether to overwrite existing files
+        max_frames: Maximum number of frames to process (default: 100)
+        sampling: 'uniform' (evenly distributed) or 'sequential' (every Nth from start)
+    """
     id = os.path.splitext(os.path.basename(input_videofile))[0]
     out_file = os.path.join(out_dir, "{}.json".format(id))
 
@@ -58,18 +70,56 @@ def extract_landmarks_from_video(input_videofile, out_dir, batch_size=32, detect
 
     capture = cv2.VideoCapture(input_videofile)
     frames_num = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
+    fps = capture.get(cv2.CAP_PROP_FPS) or 30  # Default to 30 if FPS not available
+    video_duration = frames_num / fps if fps > 0 else 0
+    
+    if frames_num == 0:
+        return
+    
     if detector is None:
         detector = get_face_detector_model()
 
+    # Adjust max_frames for short videos (< 10 seconds)
+    # For short videos, process more frames proportionally or all frames
+    if video_duration < 10 and frames_num < max_frames:
+        # For videos < 10s, process all frames (they're short anyway)
+        effective_max_frames = frames_num
+    elif video_duration < 10:
+        # For videos < 10s but with many frames, use proportional sampling
+        # Aim for ~10 frames per second
+        effective_max_frames = min(int(video_duration * 10), max_frames, frames_num)
+    else:
+        # For longer videos, use the standard max_frames
+        effective_max_frames = max_frames
+
+    # Determine which frames to process
+    if sampling == 'uniform':
+        # Evenly distribute frames across the entire video (better coverage)
+        if frames_num <= effective_max_frames:
+            frame_indices = list(range(frames_num))
+        else:
+            # Sample evenly spaced frames
+            step = frames_num / effective_max_frames
+            frame_indices = [int(i * step) for i in range(effective_max_frames)]
+            # Ensure we get the last frame
+            if frame_indices[-1] != frames_num - 1:
+                frame_indices[-1] = frames_num - 1
+    else:  # sequential
+        # Process every Nth frame from start (faster but only covers beginning)
+        frame_skip = max(1, frames_num // effective_max_frames)
+        frame_indices = list(range(0, frames_num, frame_skip))[:effective_max_frames]
+
     frames_dict = OrderedDict()
-    for i in range(frames_num):
-        capture.grab()
+    
+    # Process selected frames
+    for frame_idx in frame_indices:
+        capture.set(cv2.CAP_PROP_POS_FRAMES, frame_idx)
         success, frame = capture.retrieve()
         if not success:
             continue
         frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         frame = Image.fromarray(frame)
-        frames_dict[i] = frame
+        frames_dict[frame_idx] = frame
 
     result = OrderedDict()
     batches = list()
@@ -129,19 +179,64 @@ def extract_landmarks_from_images_batch(input_images_dir, landmarks_file, batch_
         json.dump(result, f)
 
 
-def extract_landmarks_from_video_batch(input_filepath_list, out_dir):
+def extract_landmarks_from_video_batch(input_filepath_list, out_dir, batch_size=100, overwrite=False):
+    """
+    Extract landmarks from videos in batches.
+    
+    Args:
+        input_filepath_list: List of video file paths
+        out_dir: Output directory for landmark JSON files
+        batch_size: Number of videos to process in each batch (default: 100)
+        overwrite: Whether to overwrite existing landmark files
+    """
     os.makedirs(out_dir, exist_ok=True)
+    
+    # Filter out already processed videos if not overwriting
+    original_count = len(input_filepath_list)
+    if not overwrite:
+        remaining = []
+        for video_path in input_filepath_list:
+            video_id = os.path.splitext(os.path.basename(video_path))[0]
+            out_file = os.path.join(out_dir, f"{video_id}.json")
+            if not os.path.isfile(out_file):
+                remaining.append(video_path)
+        input_filepath_list = remaining
+        skipped = original_count - len(remaining)
+        if skipped > 0:
+            print(f"Skipping {skipped} already processed videos")
+    
+    total_videos = len(input_filepath_list)
+    if total_videos == 0:
+        print("All videos already processed!")
+        return
+    
+    print(f"Processing {total_videos} videos in batches of {batch_size}")
+    
+    # Process in batches
+    num_batches = (total_videos + batch_size - 1) // batch_size
+    
+    for batch_idx in range(num_batches):
+        start_idx = batch_idx * batch_size
+        end_idx = min(start_idx + batch_size, total_videos)
+        batch_videos = input_filepath_list[start_idx:end_idx]
+        
+        print(f"\nBatch {batch_idx + 1}/{num_batches}: Processing videos {start_idx + 1}-{end_idx} of {total_videos}")
+        
     with multiprocessing.Pool(1) as pool:
         jobs = []
         results = []
-        for input_filepath in input_filepath_list:
+        for input_filepath in batch_videos:
             jobs.append(pool.apply_async(extract_landmarks_from_video,
-                                         (input_filepath, out_dir,),
+                                             (input_filepath, out_dir, 64, None, False, 100, 'uniform'),
                                          )
                         )
 
-        for job in tqdm(jobs, desc="Extracting landmarks"):
+        for job in tqdm(jobs, desc=f"Batch {batch_idx + 1}/{num_batches}"):
             results.append(job.get())
+        
+        print(f"Completed batch {batch_idx + 1}/{num_batches}")
+    
+    print(f"\n✓ Finished processing all {total_videos} videos!")
 
 
 def draw_landmarks_on_video(in_videofile, out_videofile, landmarks_file):
@@ -282,19 +377,51 @@ def crop_faces_from_image_batch(input_images_dir, landmarks_file, crop_faces_out
             results.append(job.get())
 
 
-def crop_faces_from_video_batch(input_filepath_list, landmarks_path, crop_faces_out_dir):
+def crop_faces_from_video_batch(input_filepath_list, landmarks_path, crop_faces_out_dir, batch_size=100, overwrite=False):
+    """
+    Crop faces from videos in batches.
+    
+    Args:
+        input_filepath_list: List of video file paths
+        landmarks_path: Directory containing landmark JSON files
+        crop_faces_out_dir: Output directory for cropped face images
+        batch_size: Number of videos to process in each batch (default: 100)
+        overwrite: Whether to overwrite existing cropped faces
+    """
     os.makedirs(crop_faces_out_dir, exist_ok=True)
+    
+    total_videos = len(input_filepath_list)
+    if total_videos == 0:
+        print("No videos to process!")
+        return
+    
+    print(f"Processing {total_videos} videos in batches of {batch_size}")
+    
+    # Process in batches
+    num_batches = (total_videos + batch_size - 1) // batch_size
+    
+    for batch_idx in range(num_batches):
+        start_idx = batch_idx * batch_size
+        end_idx = min(start_idx + batch_size, total_videos)
+        batch_videos = input_filepath_list[start_idx:end_idx]
+        
+        print(f"\nBatch {batch_idx + 1}/{num_batches}: Processing videos {start_idx + 1}-{end_idx} of {total_videos}")
+        
     with multiprocessing.Pool(multiprocessing.cpu_count()) as pool:
         jobs = []
         results = []
-        for input_filepath in input_filepath_list:
+        for input_filepath in batch_videos:
             jobs.append(pool.apply_async(crop_faces_from_video,
                                          (input_filepath, landmarks_path, crop_faces_out_dir,),
                                          )
                         )
 
-        for job in tqdm(jobs, desc="Cropping faces"):
+        for job in tqdm(jobs, desc=f"Batch {batch_idx + 1}/{num_batches}"):
             results.append(job.get())
+        
+        print(f"Completed batch {batch_idx + 1}/{num_batches}")
+    
+    print(f"\n✓ Finished processing all {total_videos} videos!")
 
 
 def extract_landmarks_for_datasets():
@@ -304,46 +431,123 @@ def extract_landmarks_for_datasets():
 
     landmarks_path = ConfigParser.getInstance().get_celeb_df_v2_landmarks_path()
 
-    print(f'Extracting landmarks from Celeb-df-v2 real data')
-    data_path = ConfigParser.getInstance().get_celeb_df_v2_real_path()
-    input_filepath_list = glob(data_path + '/*')
-    extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+    # Celeb-DF-v2 dataset (skip if paths don't exist)
+    try:
+        celeb_real_path = ConfigParser.getInstance().get_celeb_df_v2_real_path()
+        if os.path.exists(celeb_real_path):
+            print(f'Extracting landmarks from Celeb-df-v2 real data')
+            input_filepath_list = glob(celeb_real_path + '/*')
+            if input_filepath_list:
+                extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
 
-    print(f'Extracting landmarks from Celeb-df-v2 fake data')
-    data_path = ConfigParser.getInstance().get_celeb_df_v2_fake_path()
-    input_filepath_list = glob(data_path + '/*')
-    extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+        print(f'Extracting landmarks from Celeb-df-v2 fake data')
+        data_path = ConfigParser.getInstance().get_celeb_df_v2_fake_path()
+        if os.path.exists(data_path):
+            input_filepath_list = glob(data_path + '/*')
+            if input_filepath_list:
+                extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+    except Exception as e:
+        print(f'Skipping Celeb-DF-v2 data: {e}')
+
+    # YouTube-real data (skip if path doesn't exist)
+    try:
+        youtube_path = ConfigParser.getInstance().get_youtube_real_path()
+        if os.path.exists(youtube_path):
+            print(f'Extracting landmarks from YouTube-real data')
+            youtube_landmarks_path = ConfigParser.getInstance().get_youtube_real_landmarks_path()
+            os.makedirs(youtube_landmarks_path, exist_ok=True)
+            input_filepath_list = glob(youtube_path + '/*')
+            if input_filepath_list:
+                extract_landmarks_from_video_batch(input_filepath_list, youtube_landmarks_path)
+        else:
+            print(f'Skipping YouTube-real data (path not found: {youtube_path})')
+    except Exception as e:
+        print(f'Skipping YouTube-real data: {e}')
 
     #
-    # DFDC dataset
+    # DFDC dataset (skip if paths don't exist)
     #
-    print(f'Extracting landmarks from DFDC train data')
-    data_path_root = ConfigParser.getInstance().get_dfdc_train_data_path()
-    input_filepath_list = get_dfdc_training_video_filepaths(data_path_root)
-    landmarks_path = ConfigParser.getInstance().get_dfdc_landmarks_train_path()
-    extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+    try:
+        dfdc_train_path = ConfigParser.getInstance().get_dfdc_train_data_path()
+        if os.path.exists(dfdc_train_path):
+            print(f'Extracting landmarks from DFDC train data')
+            input_filepath_list = get_dfdc_training_video_filepaths(dfdc_train_path)
+            landmarks_path = ConfigParser.getInstance().get_dfdc_landmarks_train_path()
+            os.makedirs(landmarks_path, exist_ok=True)
+            extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
 
-    print(f'Extracting landmarks from DFDC valid data')
-    data_path = ConfigParser.getInstance().get_dfdc_valid_data_path()
+            print(f'Extracting landmarks from DFDC valid data')
+            data_path = ConfigParser.getInstance().get_dfdc_valid_data_path()
+            if os.path.exists(data_path):
+                input_filepath_list = glob(data_path + '/*')
+                landmarks_path = ConfigParser.getInstance().get_dfdc_landmarks_valid_path()
+                os.makedirs(landmarks_path, exist_ok=True)
+                extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+
+            print(f'Extracting landmarks from DFDC test data')
+            data_path = ConfigParser.getInstance().get_dfdc_test_data_path()
+            if os.path.exists(data_path):
+                input_filepath_list = glob(data_path + '/*')
+                landmarks_path = ConfigParser.getInstance().get_dfdc_landmarks_test_path()
+                os.makedirs(landmarks_path, exist_ok=True)
+                extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+        else:
+            print(f'Skipping DFDC data (path not found: {dfdc_train_path})')
+    except Exception as e:
+        print(f'Skipping DFDC data: {e}')
+
+    # FDF data (skip if path doesn't exist)
+    try:
+        fdf_path = ConfigParser.getInstance().get_fdf_data_path()
+        if os.path.exists(fdf_path):
+            print(f'Extracting landmarks from FDF data')
+            input_images_dir = fdf_path
+            landmarks_file = ConfigParser.getInstance().get_fdf_json_path()
+            os.makedirs(os.path.dirname(landmarks_file), exist_ok=True)
+            extract_landmarks_from_images_batch(input_images_dir, landmarks_file, batch_size=32)
+        else:
+            print(f'Skipping FDF data (path not found: {fdf_path})')
+    except Exception as e:
+        print(f'Skipping FDF data: {e}')
+
+    # FFHQ data (skip if path doesn't exist)
+    try:
+        ffhq_path = ConfigParser.getInstance().get_ffhq_data_path()
+        if os.path.exists(ffhq_path):
+            print(f'Extracting landmarks from FFHQ data')
+            input_images_dir = ffhq_path
+            landmarks_file = ConfigParser.getInstance().get_ffhq_json_path()
+            os.makedirs(os.path.dirname(landmarks_file), exist_ok=True)
+            extract_landmarks_from_images_batch(input_images_dir, landmarks_file, batch_size=128)
+        else:
+            print(f'Skipping FFHQ data (path not found: {ffhq_path})')
+    except Exception as e:
+        print(f'Skipping FFHQ data: {e}')
+
+    # Custom dataset (process in batches)
+    print(f'\n{"="*60}')
+    print(f'Processing Custom Dataset (in batches)')
+    print(f'{"="*60}')
+    custom_landmarks_path = ConfigParser.getInstance().get_custom_dataset_landmarks_path()
+    os.makedirs(custom_landmarks_path, exist_ok=True)
+    
+    print(f'\nExtracting landmarks from custom dataset REAL data...')
+    data_path = ConfigParser.getInstance().get_custom_dataset_real_path()
     input_filepath_list = glob(data_path + '/*')
-    landmarks_path = ConfigParser.getInstance().get_dfdc_landmarks_valid_path()
-    extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
+    if input_filepath_list:
+        print(f'Found {len(input_filepath_list)} real videos')
+        extract_landmarks_from_video_batch(input_filepath_list, custom_landmarks_path, batch_size=100, overwrite=False)
+    else:
+        print(f'No real videos found in {data_path}')
 
-    print(f'Extracting landmarks from DFDC test data')
-    data_path = ConfigParser.getInstance().get_dfdc_test_data_path()
+    print(f'\nExtracting landmarks from custom dataset FAKE data...')
+    data_path = ConfigParser.getInstance().get_custom_dataset_fake_path()
     input_filepath_list = glob(data_path + '/*')
-    landmarks_path = ConfigParser.getInstance().get_dfdc_landmarks_test_path()
-    extract_landmarks_from_video_batch(input_filepath_list, landmarks_path)
-
-    print(f'Extracting landmarks from FDF data')
-    input_images_dir = ConfigParser.getInstance().get_fdf_data_path()
-    landmarks_file = ConfigParser.getInstance().get_fdf_json_path()
-    extract_landmarks_from_images_batch(input_images_dir, landmarks_file, batch_size=32)
-
-    print(f'Extracting landmarks from FFHQ data')
-    input_images_dir = ConfigParser.getInstance().get_ffhq_data_path()
-    landmarks_file = ConfigParser.getInstance().get_ffhq_json_path()
-    extract_landmarks_from_images_batch(input_images_dir, landmarks_file, batch_size=128)
+    if input_filepath_list:
+        print(f'Found {len(input_filepath_list)} fake videos')
+        extract_landmarks_from_video_batch(input_filepath_list, custom_landmarks_path, batch_size=100, overwrite=False)
+    else:
+        print(f'No fake videos found in {data_path}')
 
 
 def crop_faces_for_datasets():
@@ -362,6 +566,41 @@ def crop_faces_for_datasets():
     data_path = ConfigParser.getInstance().get_celeb_df_v2_fake_path()
     input_filepath_list = glob(data_path + '/*')
     crop_faces_from_video_batch(input_filepath_list, landmarks_path, crops_path)
+
+    # YouTube-real data
+    print(f'Cropping faces from YouTube-real data')
+    youtube_landmarks_path = ConfigParser.getInstance().get_youtube_real_landmarks_path()
+    youtube_crops_path = ConfigParser.getInstance().get_youtube_real_crops_path()
+    os.makedirs(youtube_crops_path, exist_ok=True)
+    data_path = ConfigParser.getInstance().get_youtube_real_path()
+    input_filepath_list = glob(data_path + '/*')
+    crop_faces_from_video_batch(input_filepath_list, youtube_landmarks_path, youtube_crops_path)
+
+    # Custom dataset (process in batches)
+    print(f'\n{"="*60}')
+    print(f'Cropping Faces from Custom Dataset (in batches)')
+    print(f'{"="*60}')
+    custom_landmarks_path = ConfigParser.getInstance().get_custom_dataset_landmarks_path()
+    custom_crops_path = ConfigParser.getInstance().get_custom_dataset_crops_path()
+    os.makedirs(custom_crops_path, exist_ok=True)
+    
+    print(f'\nCropping faces from custom dataset REAL data...')
+    data_path = ConfigParser.getInstance().get_custom_dataset_real_path()
+    input_filepath_list = glob(data_path + '/*')
+    if input_filepath_list:
+        print(f'Found {len(input_filepath_list)} real videos')
+        crop_faces_from_video_batch(input_filepath_list, custom_landmarks_path, custom_crops_path, batch_size=100, overwrite=False)
+    else:
+        print(f'No real videos found in {data_path}')
+
+    print(f'\nCropping faces from custom dataset FAKE data...')
+    data_path = ConfigParser.getInstance().get_custom_dataset_fake_path()
+    input_filepath_list = glob(data_path + '/*')
+    if input_filepath_list:
+        print(f'Found {len(input_filepath_list)} fake videos')
+        crop_faces_from_video_batch(input_filepath_list, custom_landmarks_path, custom_crops_path, batch_size=100, overwrite=False)
+    else:
+        print(f'No fake videos found in {data_path}')
 
     #
     # DFDC dataset

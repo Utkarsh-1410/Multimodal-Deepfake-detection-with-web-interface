@@ -1,0 +1,54 @@
+@startuml Simple System Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+
+title Multi-Method DeepFake Detection - System Architecture
+
+left to right direction
+
+rectangle "Input" {
+  [Video File] as Video
+}
+
+rectangle "Preprocessing" {
+  [Face Detection] as FaceDet
+  [Face Cropping] as Crop
+  [Frame Sampling] as Sample
+  [MRI Generation] as MRI
+}
+
+rectangle "Detection Methods" {
+  [Plain Frames\nDetector] as Plain
+  [MRI-Based\nDetector] as MRIDet
+  [Temporal\nDetector] as Temp
+}
+
+rectangle "Fusion" {
+  [Ensemble\nFusion] as Fusion
+}
+
+rectangle "Output" {
+  [Calibrated\nProbabilities] as Output
+  [Web Interface] as Web
+}
+
+Video --> FaceDet
+FaceDet --> Crop
+Crop --> Sample
+Crop --> MRI
+
+Sample --> Plain
+Sample --> Temp
+MRI --> MRIDet
+
+Plain --> Fusion
+MRIDet --> Fusion
+Temp --> Fusion
+
+Fusion --> Output
+Output --> Web
+
+@enduml
+

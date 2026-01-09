@@ -1,0 +1,1172 @@
+[
+  {
+    "path": "data/real\\00003.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00007.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00024.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00026.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00034.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00046.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00048.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00060.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00070.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00089.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00100.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00102.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00117.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00118.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00122.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00123.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00125.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00126.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00131.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00152.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00156.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00160.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00172.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00174.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00178.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00202.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00237.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00240.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00243.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00245.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\00248.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\029.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\033.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\062.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\097.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\107.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\130.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\132.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\133.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\142.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\143.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\145.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\154.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\157.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\158.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\187.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\192.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\220.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\251.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\261.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\277.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\300.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\308.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\326.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\340.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\346.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\364.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\366.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\371.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\378.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\386.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\402.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\408.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\409.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\437.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\442.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\445.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\451.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\456.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\470.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\478.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\480.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\496.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\500.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\513.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\536.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\540.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\546.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\550.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\570.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\579.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\587.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\606.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\613.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\632.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\638.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\641.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\654.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\665.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\700.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\704.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\718.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\730.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\733.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\839.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\899.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\911.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\926.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\956.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\968.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\976.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\977.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\985.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id0_0005.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id10_0008.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id11_0000.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id11_0003.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id12_0000.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id16_0011.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id17_0002.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id17_0008.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id1_0000.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id2_0000.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id2_0009.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id3_0007.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id7_0004.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/real\\id8_0009.mp4",
+    "label": 0,
+    "class": "real"
+  },
+  {
+    "path": "data/fake\\010_005.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\018_019.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\021_312.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\047_862.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\068_028.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\102_114.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\110_043.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\115_939.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\123_119.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\132_007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\178_598.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\183_253.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\188_191.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\199_181.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\203_201.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\226_491.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\234_187.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\236_237.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\242_182.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\299_145.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\308_388.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\339_392.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\346_351.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\352_319.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\364_440.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\403_497.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\431_447.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\466_428.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\493_538.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\496_417.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\502_504.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\512_495.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\517_521.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\560_557.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\578_636.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\597_595.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\600_505.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\612_702.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\618_629.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\652_773.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\685_613.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\686_696.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\687_615.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\691_732.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\721_715.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\755_759.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\761_766.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\781_806.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\782_787.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\788_710.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\822_244.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\846_845.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\861_858.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\890_837.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\913_893.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\922_898.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\928_160.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\938_987.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\981_985.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\982_004.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\996_056.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id0_id17_0000.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id0_id4_0001.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id13_id10_0001.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id13_id10_0005.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id13_id7_0005.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id0_0007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id0_0013.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id17_0010.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id1_0001.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id1_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id2_0000.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id2_0004.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id2_0012.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id16_id9_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id1_0007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id2_0007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id2_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id3_0000.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id3_0003.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id6_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id17_id6_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id1_id0_0005.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id1_id16_0007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id1_id17_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id1_id4_0004.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id1_id6_0003.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id1_id6_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id0_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id0_0003.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id0_0005.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id17_0006.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id1_0006.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id4_0001.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id6_0006.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id2_id9_0006.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id0_0000.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id0_0008.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id0_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id17_0000.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id2_0005.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id2_0007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id6_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id3_id9_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id4_id1_0000.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id4_id1_0008.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id4_id3_0003.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id4_id9_0006.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id4_id9_0007.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id6_id0_0009.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id6_id9_0004.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id7_id11_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id7_id11_0006.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id7_id13_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id8_id0_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id8_id6_0003.mp4",
+    "label": 1,
+    "class": "fake"
+  },
+  {
+    "path": "data/fake\\id9_id3_0002.mp4",
+    "label": 1,
+    "class": "fake"
+  }
+]

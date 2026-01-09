@@ -1,0 +1,28 @@
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#ffffff', 'primaryTextColor':'#000000', 'primaryBorderColor':'#000000', 'lineColor':'#000000', 'secondaryColor':'#ffffff', 'tertiaryColor':'#ffffff', 'background':'#ffffff'}}}%%
+flowchart LR
+    A[Input Video] --> B[Preprocessing<br/>MTCNN + Face Cropping]
+    
+    B --> C1[Plain Frames<br/>EfficientNet-B0]
+    B --> C2[MRI-GAN<br/>Perceptual Mapping]
+    B --> C3[Temporal<br/>1D CNN]
+    
+    C1 --> D[Probability Calibration<br/>Temperature Scaling]
+    C2 --> D
+    C3 --> D
+    
+    D --> E[Ensemble Fusion<br/>Adaptive Weighting]
+    E --> F[Final Prediction<br/>Real/Fake + Confidence]
+    F --> G[Web Interface<br/>FastAPI]
+    
+    style A fill:#e1f5ff,stroke:#333,stroke-width:2px
+    style B fill:#fff4e1,stroke:#333,stroke-width:2px
+    style C1 fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style C2 fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style C3 fill:#e8f5e9,stroke:#333,stroke-width:2px
+    style D fill:#f3e5f5,stroke:#333,stroke-width:2px
+    style E fill:#ffebee,stroke:#333,stroke-width:2px
+    style F fill:#e0f2f1,stroke:#333,stroke-width:2px
+    style G fill:#fff9c4,stroke:#333,stroke-width:2px
+```
+

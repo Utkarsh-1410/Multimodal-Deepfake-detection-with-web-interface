@@ -104,6 +104,7 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv/
 env/
 venv/
 ENV/
@@ -128,14 +129,34 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-assets/*.csv
-assets/*.json
-assets/*.pkl
-assets/aug_metadata
-test_code/
+## Project-specific: keep repo small & reproducible
+
+# Run artifacts
 logs/
-assets/demo_pics/
-assets/sample_augmentation/
+output/
+uploads/
+
+# Local experiments / scratch
+test_code/
+
+# Local IDE
 .idea/
+.vscode/
+
+# Model weights / checkpoints (re-downloadable)
+assets/weights/
+**/*.pth
+**/*.pt
+**/*.ckpt
+**/*.chkpt
+
+# Datasets / media corpora (too large for git)
+data/
+src/data/
+
+# Derived media / large binaries (keep small samples explicitly if needed)
+*.onnx
+*.tflite
+*.h5
 
 

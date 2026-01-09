@@ -16,7 +16,9 @@ def predict_mri_using_MRI_GAN(crops_path, mri_path, vid, imsize, overwrite=False
     if not overwrite and os.path.isdir(vid_mri_path):
         return
     batch_size = 8
-    mri_generator = get_MRI_GAN(pre_trained=True).cuda()
+    # Select device based on CUDA availability
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    mri_generator = get_MRI_GAN(pre_trained=True).to(device)
     os.makedirs(vid_mri_path, exist_ok=True)
     frame_names = glob(vid_path + '/*.png')
     num_frames_detected = len(frame_names)
@@ -40,7 +42,7 @@ def predict_mri_using_MRI_GAN(crops_path, mri_path, vid, imsize, overwrite=False
             frames.append(transforms_(Image.open(frame_names[k])))
 
         frames = torch.stack(frames)
-        frames = frames.cuda()
+        frames = frames.to(device)
         mri_images = mri_generator(frames)
         b = mri_images.shape[0]
         for l in range(b):

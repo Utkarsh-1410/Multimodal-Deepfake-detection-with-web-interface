@@ -1,0 +1,160 @@
+@startuml Detailed System Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam linetype ortho
+skinparam shadowing false
+skinparam arrowColor #000000
+skinparam componentBackgroundColor #E8F4F8
+skinparam packageBackgroundColor #F0F0F0
+
+title Multi-Method DeepFake Detection System - Detailed Architecture
+
+left to right direction
+
+package "1. Input & Preprocessing" #LightBlue {
+  component [Video File\n(.mp4, .avi, .mov)] as VideoFile
+  component [Face Detection\nMTCNN] as MTCNN
+  component [Landmark Extraction\n68 points] as LandmarkExt
+  component [Face Cropping\n256x256 aligned] as FaceCrop
+  component [Frame Sampling\nUniform/Strategic] as FrameSampling
+  component [MRI Generation\nMRI-GAN Generator] as MRIGenerator
+}
+
+package "2. Detection Methods" #LightGreen {
+  
+  package "Method 1: Plain Frames" #LightYellow {
+    component [EfficientNet-B0\nFeature Extractor] as PlainEncoder
+    component [AdaptiveAvgPool2d\nFlatten] as PlainPool
+    component [Classifier Head\nLinear Layers] as PlainClassHead
+    component [Output: p_plain] as PlainOutput
+  }
+  
+  package "Method 2: MRI-Based" #LightCoral {
+    component [MRI Map\nPerceptual Map] as MRIMap
+    component [EfficientNet-B0\nFeature Extractor] as MRIEncoder
+    component [AdaptiveAvgPool2d\nFlatten] as MRIPool
+    component [Classifier Head\nLinear Layers] as MRIClassHead
+    component [Output: p_mri] as MRIOutput
+  }
+  
+  package "Method 3: Temporal" #LightPink {
+    component [Frame Embeddings\nSequence E_1...E_T] as FrameEmbs
+    component [Linear Projection] as TempProj
+    component [1D Conv Layers\nKernel=3] as TempConv
+    component [AdaptiveAvgPool1d] as TempPool
+    component [Classifier Head] as TempClassHead
+    component [Output: p_temporal] as TempOutput
+  }
+  
+  package "Method 4: Ensemble Fusion" #LightSteelBlue {
+    component [Probability\nCollection] as ProbCollect
+    component [Confidence\nCalculation] as ConfCalc
+    component [Adaptive Weighting\nw_m = f(c_m)] as AdaptWeight
+    component [Weighted Fusion\np_fused = Σw_m·p_m] as WeightedFusion
+    component [Temporal Smoothing\nMoving Average] as Smoothing
+    component [Final Output\np_final] as FinalOutput
+  }
+}
+
+package "3. Calibration & Post-Processing" #LightGray {
+  component [Temperature Scaling\nT learned on val set] as TempScaling
+  component [Probability Calibration\nσ(z/T)] as Calibration
+  component [Calibration Metrics\nECE, MCE] as CalibMetrics
+}
+
+package "4. Evaluation Framework" #Lavender {
+  component [K-Fold CV\nK=4, 80/10/10] as KFoldCV
+  component [Metrics Calculation\nAcc, Prec, Rec, F1] as MetricsCalc
+  component [ROC-AUC, PR-AUC] as AUCMetrics
+  component [Confusion Matrix] as ConfMatrix
+}
+
+package "5. Web Interface & API" #MistyRose {
+  component [FastAPI Server] as FastAPI
+  component [Upload Handler] as Upload
+  component [Progress Tracker] as Progress
+  component [Results Display] as ResultsDisplay
+  component [REST API\n/api/detect] as RESTAPI
+}
+
+' Preprocessing Flow
+VideoFile --> MTCNN
+MTCNN --> LandmarkExt
+LandmarkExt --> FaceCrop
+FaceCrop --> FrameSampling
+FaceCrop --> MRIGenerator
+
+' Plain Frames Flow
+FrameSampling --> PlainEncoder
+PlainEncoder --> PlainPool
+PlainPool --> PlainClassHead
+PlainClassHead --> PlainOutput
+
+' MRI-Based Flow
+MRIGenerator --> MRIMap
+MRIMap --> MRIEncoder
+MRIEncoder --> MRIPool
+MRIPool --> MRIClassHead
+MRIClassHead --> MRIOutput
+
+' Temporal Flow
+FrameSampling --> FrameEmbs
+FrameEmbs --> TempProj
+TempProj --> TempConv
+TempConv --> TempPool
+TempPool --> TempClassHead
+TempClassHead --> TempOutput
+
+' Fusion Flow
+PlainOutput --> ProbCollect
+MRIOutput --> ProbCollect
+TempOutput --> ProbCollect
+ProbCollect --> ConfCalc
+ConfCalc --> AdaptWeight
+AdaptWeight --> WeightedFusion
+WeightedFusion --> Smoothing
+Smoothing --> FinalOutput
+
+' Calibration
+PlainOutput --> TempScaling
+MRIOutput --> TempScaling
+TempOutput --> TempScaling
+FinalOutput --> TempScaling
+TempScaling --> Calibration
+Calibration --> CalibMetrics
+
+' Evaluation
+Calibration --> KFoldCV
+KFoldCV --> MetricsCalc
+MetricsCalc --> AUCMetrics
+MetricsCalc --> ConfMatrix
+
+' Web Interface
+FinalOutput --> FastAPI
+Calibration --> FastAPI
+FastAPI --> Upload
+FastAPI --> Progress
+FastAPI --> ResultsDisplay
+FastAPI --> RESTAPI
+
+note right of MRIGenerator
+  MRI-GAN generates
+  perceptual dissimilarity
+  maps highlighting
+  synthetic regions
+end note
+
+note right of AdaptWeight
+  Adaptive weights based on
+  confidence scores:
+  w_m = exp(α·c_m) / Σexp(α·c_m')
+end note
+
+note right of TempScaling
+  Temperature T learned
+  on validation set
+  to calibrate probabilities
+end note
+
+@enduml
+

@@ -1,0 +1,127 @@
+assets: 'assets'
+data_path:
+  dfdc:
+    train: 'data/dfdc/train'
+    valid: 'data/dfdc/valid'
+    test: 'data/dfdc/test'
+    train_labels_csv_filename: 'train_labels.csv'
+    valid_labels_csv_filename: 'labels.csv'
+    test_labels_csv_filename: 'labels.csv'
+    train_frame_labels_csv_filename: 'train_frame_labels.csv'
+    valid_frame_labels_csv_filename: 'valid_frame_labels.csv'
+    test_frame_labels_csv_filename: 'test_frame_labels.csv'
+    data_augmentation:
+      plan_pkl_filename: 'data_augmentation_plan.pkl'
+      metadata: 'aug_metadata'
+  celeb_df_v2:
+    real: 'data/Celeb-real'
+    fake: 'data/Celeb-synthesis'
+    real_fake_mapping: 'celeb_df_v2_real_fake_mapping.json'
+  youtube_real:
+    data_path: 'data/YouTube-real'
+  custom_dataset:
+    real: 'data/real'
+    fake: 'data/fake'
+  fdf:
+    data_path: 'data/fdf/cc-by-nc-sa-2/128'
+  ffhq:
+    data_path: 'data/ffhq/images1024x1024'
+features:
+  dfdc:
+    landmarks_path:
+      train: 'data/dfdc/landmarks/train'
+      valid: 'data/dfdc/landmarks/valid'
+      test: 'data/dfdc/landmarks/test'
+    crop_faces:
+      train: 'data/dfdc/crop_faces/train'
+      valid: 'data/dfdc/crop_faces/valid'
+      test: 'data/dfdc/crop_faces/test'
+    mri_metadata_csv: 'dfdc_mri_metadata.csv'
+    mri_path: 'data/dfdc/mri'
+    train_mrip2p_faces: 'data/dfdc/mri_to_detect/train/'
+    valid_mrip2p_faces: 'data/dfdc/mri_to_detect/valid/'
+    test_mrip2p_faces: 'data/dfdc/mri_to_detect/test/'
+    train_mriframe_label: 'train_mriframe_labels.csv'
+    valid_mriframe_label: 'valid_mriframe_labels.csv'
+    test_mriframe_label: 'test_mriframe_labels.csv'
+  celeb_df_v2:
+    landmarks_path:
+      train: 'data/celeb_df_v2/landmarks'
+    crop_faces:
+      train: 'data/celeb_df_v2/crop_faces/train'
+    mri_metadata_csv: 'celeb_df_v2_mri_metadata.csv'
+    mri_path: 'data/celeb_df_v2/mri'
+  custom_dataset:
+    landmarks_path:
+      train: 'data/custom_dataset/landmarks'
+    crop_faces:
+      train: 'data/custom_dataset/crop_faces/train'
+    mri_metadata_csv: 'custom_dataset_mri_metadata.csv'
+    mri_path: 'data/custom_dataset/mri'
+  fdf:
+    json_filename: 'data/fdf/cc-by-nc-sa-2/fdf.json'
+    crops_path: 'data/fdf/cc-by-nc-sa-2/128_crops'
+  ffhq:
+    json_filename: 'data/ffhq/ffhq.json'
+    crops_path: 'data/ffhq/images1024x1024_crops'
+  mri_dataset_real_train_csv: 'mri_real_train_dataset.csv'
+  mri_dataset_fake_train_csv: 'mri_fake_train_dataset.csv'
+  mri_dataset_real_test_csv: 'mri_real_test_dataset.csv'
+  mri_dataset_fake_test_csv: 'mri_fake_test_dataset.csv'
+  mri_dataset_csv: 'mri_dataset.csv'
+  blank_png: 'blank.png'
+MRI_GAN:
+  weights: 'assets/weights/MRI_GAN_weights.chkpt'
+  model_params:
+    n_epochs: 100
+    batch_size: 32  # Reduced for Windows compatibility
+    lambda_pixel: 100
+    b1: 0.5
+    b2: 0.999
+    lr: 0.0002
+    tau: 0.3
+    imsize: 256
+    model_name: 'MRI_GAN'
+    test_sample_size: 16
+    chkpt_freq: 500
+    sample_gen_freq: 200
+    frac: 1 # fraction of data to use (with respect to real data)
+    losses_file: 'losses.pkl'
+    metadata_file: 'mri_metadata.pkl'
+    ssim_report_file: 'ssim_report_file.pkl'
+cnn_encoder:
+  default: 'tf_efficientnet_b0_ns'
+deep_fake:
+  training:
+    train_size: 1
+    valid_size: 1
+    test_size: 1
+    model_params:
+      model_name: 'DeepFakeDetectModel'
+      label_smoothing: 0.1
+      train_transform: 'simple' # simple or complex
+      batch_format: 'simple'
+      epochs: 20
+      learning_rate: 0.001
+      batch_size: 32  # Reduced for Windows compatibility
+      fp16: True
+      opt_level: 'O0'
+      dataset: 'mri'
+logging:
+  root_log_dir: logs
+  line_len: 80
+  model_info_log: 'model_info_and_results.log'
+  model_loss_info_log: 'model_losses.log'
+  model_acc_info_log: 'model_acc.log'
+  model_conf_matrix_csv: 'confusion_matrix.csv'
+  model_conf_matrix_png: 'confusion_matrix.png'
+  model_conf_matrix_normalized_csv: 'confusion_matrix_normalized.csv'
+  model_conf_matrix_normalized_png: 'confusion_matrix_normalized.png'
+  model_accuracy_png: 'model_accuracy.png'
+  model_loss_png: 'model_loss.png'
+  all_samples_pred_csv: 'all_samples_pred.csv'
+  model_roc_png: 'model_roc.png'
+
+
+
+
